@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocalisationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,17 @@ class Localisation
 
     #[ORM\OneToOne(mappedBy: 'localisation', cascade: ['persist', 'remove'])]
     private ?Trip $trip = null;
+
+    /**
+     * @var Collection<int, Poi>
+     */
+    #[ORM\OneToMany(targetEntity: Poi::class, mappedBy: 'localisation', orphanRemoval: true)]
+    private Collection $pois;
+
+    public function __construct()
+    {
+        $this->pois = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -95,6 +108,36 @@ class Localisation
         }
 
         $this->trip = $trip;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Poi>
+     */
+    public function getPois(): Collection
+    {
+        return $this->pois;
+    }
+
+    public function addPoi(Poi $poi): static
+    {
+        if (!$this->pois->contains($poi)) {
+            $this->pois->add($poi);
+            $poi->setLocalisation($this);
+        }
+
+        return $this;
+    }
+
+    public function removePoi(Poi $poi): static
+    {
+        if ($this->pois->removeElement($poi)) {
+            // set the owning side to null (unless already changed)
+            if ($poi->getLocalisation() === $this) {
+                $poi->setLocalisation(null);
+            }
+        }
 
         return $this;
     }
