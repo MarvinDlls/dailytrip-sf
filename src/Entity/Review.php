@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReviewRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,10 @@ class Review
 
     #[ORM\Column(length: 80)]
     private ?string $email = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Trip $trip = null;
 
     public function getId(): ?int
     {
@@ -63,4 +69,18 @@ class Review
 
         return $this;
     }
+
+    public function getTrip(): ?Trip
+    {
+        return $this->trip;
+    }
+
+    public function setTrip(?Trip $trip): static
+    {
+        $this->trip = $trip;
+
+        return $this;
+    }
+
+
 }

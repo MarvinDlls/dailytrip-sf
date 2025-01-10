@@ -26,6 +26,9 @@ class Localisation
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $duration = null;
 
+    #[ORM\OneToOne(mappedBy: 'localisation', cascade: ['persist', 'remove'])]
+    private ?Trip $trip = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,23 @@ class Localisation
     public function setDuration(\DateTimeInterface $duration): static
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getTrip(): ?Trip
+    {
+        return $this->trip;
+    }
+
+    public function setTrip(Trip $trip): static
+    {
+        // set the owning side of the relation if necessary
+        if ($trip->getLocalisation() !== $this) {
+            $trip->setLocalisation($this);
+        }
+
+        $this->trip = $trip;
 
         return $this;
     }
