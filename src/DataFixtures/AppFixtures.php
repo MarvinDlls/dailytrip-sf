@@ -2,15 +2,16 @@
 
 namespace App\DataFixtures;
 
+use Time;
 use Faker\Factory;
 use App\Entity\Trip;
 use App\Entity\Category;
+use App\Entity\Localisation;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
-    
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR'); // Chargement de Faker
@@ -25,8 +26,7 @@ class AppFixtures extends Fixture
             'Littoral',
             'Îles'
         ];
-        $categoryArray = [];
-
+        $categoryArray = []; // Tableau vide
         for ($i = 0; $i < count($categories); $i++) {
             $category = new Category();
             $category
@@ -37,21 +37,34 @@ class AppFixtures extends Fixture
             $manager->persist($category); // Ajoute à la BDD
         }
 
-        for ($i=0; $i < 1000; $i++) { 
+        for ($i = 0; $i < 1000; $i++) {
+            // Création d'un localisation
+            $localisation = new Localisation();
+            $localisation
+                ->setStart($faker->latitude() . ',' . $faker->longitude())
+                ->setFinish($faker->latitude() . ',' . $faker->longitude())
+                ->setDuration($faker->numerify('###'))
+                ->setDistance($faker->numerify('###.###'))
+            ;
+            $manager->persist($localisation);
+
+            // Création d'un trip
             $trip = new Trip();
             $trip
-                ->setRef(uniqid('trip-', true))
+                ->setRef(uniqid('trip-')) // Génération d'un identifiant unique
                 ->setTitle($faker->sentence(3))
                 ->setDescription($faker->paragraph(4))
-                ->setCover('https://picsum.photos/1280/720?random='.$i)
+                ->setCover('https://picsum.photos/1280/720?random=' . $i)
                 ->setEmail($faker->email())
                 ->setStatus($faker->boolean(70))
-                // ici on utilise le tableau de categories pour en assigner à l'objet Trip
+                // Ici on utilise le tableau de categories pour en assigner à l'objet Trip
                 ->setCategory($faker->randomElement($categoryArray))
+                ->setLocalisation($localisation)
             ;
+
             $manager->persist($trip);
         }
 
-        $manager->flush(); // Execute les requêtes SQL générés par Doctrine
+        $manager->flush(); // Exécute les requêtes SQL générées par Doctrine
     }
 }

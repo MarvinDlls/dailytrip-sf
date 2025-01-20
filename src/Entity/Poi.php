@@ -13,15 +13,15 @@ class Poi
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 80)]
+    #[ORM\Column(length: 255)]
     private ?string $point = null;
-
-    #[ORM\OneToOne(inversedBy: 'poi', cascade: ['persist', 'remove'])]
-    private ?Gallery $gallery = null;
 
     #[ORM\ManyToOne(inversedBy: 'pois')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Localisation $localisation = null;
+    private ?Localisation $location = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Gallery $gallery = null;
 
     public function getId(): ?int
     {
@@ -40,6 +40,18 @@ class Poi
         return $this;
     }
 
+    public function getLocation(): ?Localisation
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Localisation $location): static
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
     public function getGallery(): ?Gallery
     {
         return $this->gallery;
@@ -48,18 +60,6 @@ class Poi
     public function setGallery(?Gallery $gallery): static
     {
         $this->gallery = $gallery;
-
-        return $this;
-    }
-
-    public function getLocalisation(): ?Localisation
-    {
-        return $this->localisation;
-    }
-
-    public function setLocalisation(?Localisation $localisation): static
-    {
-        $this->localisation = $localisation;
 
         return $this;
     }

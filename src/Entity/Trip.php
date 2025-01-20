@@ -28,11 +28,11 @@ class Trip
     #[ORM\Column(length: 255)]
     private ?string $cover = null;
 
-    #[ORM\Column(length: 80, nullable: false)]
+    #[ORM\Column(length: 80)]
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $status = null;
+    private ?bool $status = false;
 
     /**
      * @var Collection<int, Rating>
@@ -40,7 +40,7 @@ class Trip
     #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'trip', orphanRemoval: true)]
     private Collection $ratings;
 
-    #[ORM\OneToOne(inversedBy: 'trip', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'trip', cascade: ['persist', 'remove'])]
     private ?Gallery $gallery = null;
 
     /**
@@ -56,7 +56,6 @@ class Trip
     #[ORM\OneToOne(inversedBy: 'trip', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Localisation $localisation = null;
-
 
     public function __construct()
     {
@@ -178,6 +177,16 @@ class Trip
 
     public function setGallery(?Gallery $gallery): static
     {
+        // unset the owning side of the relation if necessary
+        if ($gallery === null && $this->gallery !== null) {
+            $this->gallery->setTrip(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($gallery !== null && $gallery->getTrip() !== $this) {
+            $gallery->setTrip($this);
+        }
+
         $this->gallery = $gallery;
 
         return $this;
