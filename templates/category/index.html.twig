@@ -4,5 +4,9 @@
 
 {% block body %}
 
+{% for item in categories  %}
+    {{ item.name |trans }}
+    {{dump(item)}}
+{% endfor %}
 
 {% endblock %}
