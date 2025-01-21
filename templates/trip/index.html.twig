@@ -18,9 +18,9 @@
               <p class="card-text">{{item.description ? item.description|slice(0, 30) : ''}}...</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <a href={{path('app_trip', {'ref': item.ref})}} class="btn btn-sm btn-outline-secondary">View</a>
+                  <a href={{path('app_trip', {'ref': item.ref})}} class="btn btn-sm btn-outline-secondary">Découvrir</a>
                   {% if app.user %}
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Éditer</button>
                   {% endif %}
                 </div>
                 <small class="text-body-secondary">{{item.localisation.distance}} Km</small>
