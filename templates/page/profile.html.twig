@@ -3,6 +3,24 @@
 {% block title %}{{ 'Profile page'|trans }}{% endblock %}
 
 {% block body %}
+
+{% set progress = 0 %}
+
+{% if app.user.isVerified %}
+	{% set progress = progress + 33 %}
+{% endif %}
+
+{% if app.user.username %}
+	{% set progress = progress + 33 %}
+{% endif %}
+
+{% if app.user.trips|length > 0 %} {# Si l'user est à poster un trip minimum #}
+	{% if progress > 65 %} {# Si le score est supérieur à 65 #}
+		{% set progress = progress + 34 %} {# On ajoute 34 pour avoir 100% #}
+	{% endif %} {# Sinon #}
+		{% set progress = progress + 33 %} {# On ajoute 33, car il y a 0 ou 33% #}
+{% endif %}
+
 <section class="pt-3">
 	<div class="container">
 		<div class="row">
@@ -33,7 +51,7 @@
 								<div class="text-center mb-3">
 									<!-- Avatar -->
 									<div class="avatar avatar-xl mb-2">
-										<img class="avatar-img rounded-circle border border-2 border-white" src="assets/images/avatar/01.jpg" alt="">
+										<img class="avatar-img rounded-circle border border-2 border-white" src="https://avatar.iran.liara.run/public/15" alt="">
 									</div>
 									<h6 class="mb-0">{{ app.user.username ?? 'N/A'}}</h6>
 									<a href="#" class="text-reset text-primary-hover small">{{ app.user.email ?? 'N/A' }}</a>
@@ -88,8 +106,17 @@
 						<div class="overflow-hidden">
 							<h6>Complete Your Profile</h6>
 							<div class="progress progress-sm bg-success bg-opacity-10">
-								<div class="progress-bar bg-success aos aos-init aos-animate" role="progressbar" data-aos="slide-right" data-aos-delay="200" data-aos-duration="1000" data-aos-easing="ease-in-out" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
-								<span class="progress-percent-simple h6 fw-light ms-auto">85%</span>
+								<div class="progress-bar bg-success aos aos-init aos-animate" 
+									role="progressbar" 
+									data-aos="slide-right" 
+									data-aos-delay="200" 
+									data-aos-duration="1000" 
+									data-aos-easing="ease-in-out" 
+									style="width: {{progress}}%" 
+									aria-valuenow="{{progress}}" 
+									aria-valuemin="0" 
+									aria-valuemax="100">
+								<span class="progress-percent-simple h6 fw-light ms-auto">{{progress}}</span>
 							</div>
 						</div>
 						<p class="mb-0">Get the best out of booking by adding the remaining details!</p>
@@ -97,9 +124,38 @@
 						<!-- Content -->
 						<div class="bg-body rounded p-3 mt-3">
 							<ul class="list-inline hstack flex-wrap gap-2 justify-content-between mb-0">
-								<li class="list-inline-item h6 fw-normal mb-0"><a href="#"><i class="bi bi-check-circle-fill text-success me-2"></i>Verified Email</a></li>
-								<li class="list-inline-item h6 fw-normal mb-0"><a href="#"><i class="bi bi-check-circle-fill text-success me-2"></i>Verified Mobile Number</a></li>
-								<li class="list-inline-item h6 fw-normal mb-0"><a href="#" class="text-primary"><i class="bi bi-plus-circle-fill me-2"></i>Complete Basic Info</a></li>
+								<li class="list-inline-item h6 fw-normal mb-0">
+									<p>
+									{# Première version #}
+
+									{# {% if app.user.isVerified %}
+										<i class="bi bi-check-circle-fill text-success me-2"></i>
+									{% else %}
+										<i class="bi bi-x-circle-fill text-danger me-2"></i>
+									{% endif %} #}
+									
+									{# Deuxième version pour les conditions simples #}
+
+									<i class="me-2 bi {{ app.user.isVerified ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'}}"></i>
+									{{'Verified Email' |trans}}
+									</p>
+								</li>
+								<li class="list-inline-item h6 fw-normal mb-0">
+									<p>
+									<i class="me-2 bi {{ app.user.username ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'}}"></i>
+									{{'Username defined' |trans}}
+									</p>
+								</li>
+								<li class="list-inline-item h6 fw-normal mb-0">
+									<p>
+									{% if app.user.trips|length > 0 %}
+										<i class="me-2 bi bi-check circle-fill text-success"></i>
+									{% else %}
+										<i class="me-2 bi bi-x-circle-fill text-danger"></i>
+									{% endif %}
+									{{'First Trip posted' |trans}}
+									</p>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -122,7 +178,7 @@
 										<label class="position-relative me-4" for="uploadfile-1" title="Replace this pic">
 											<!-- Avatar place holder -->
 											<span class="avatar avatar-xl">
-												<img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="assets/images/avatar/01.jpg" alt="">
+												<img id="uploadfile-1-preview" class="avatar-img rounded-circle border border-white border-3 shadow" src="https://avatar.iran.liara.run/public/15" alt="">
 											</span>
 										</label>
 										<!-- Upload button -->
