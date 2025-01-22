@@ -35,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 80, nullable: true)]
+    private ?string $username = null;
+
     /**
      * @var Collection<int, Trip>
      */
@@ -52,9 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'evaluator')]
     private Collection $ratings;
-
-    #[ORM\Column(length: 80, nullable: true)]
-    private ?string $username = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
@@ -148,6 +148,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Trip>
      */
@@ -234,18 +246,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $rating->setEvaluator(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): static
-    {
-        $this->username = $username;
 
         return $this;
     }

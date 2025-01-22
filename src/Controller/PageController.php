@@ -5,15 +5,16 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PageController extends AbstractController
 {
-    // Page d'accueil
+    // Page d'accueil 
     #[Route('/', name: 'app_home', methods: ['GET'])]
-    public function index(): Response
+    public function home(): Response
     {
         return $this->render('page/home.html.twig', [
-            'controller_name' => 'Home',
+            'controller_name' => 'HOME',
         ]);
     }
 
@@ -22,25 +23,33 @@ class PageController extends AbstractController
     public function contact(): Response
     {
         return $this->render('page/contact.html.twig', [
-            'controller_name' => 'Contact',
+            'controller_name' => 'COUNTACTE',
         ]);
     }
 
-    // Page RGPD
-    #[Route('/rgpd', name: 'app_rgpd', methods: ['GET'])]
-    public function rgpd(): Response
-    {
-        return $this->render('page/rgpd.html.twig', [
-            'controller_name' => 'RGPD',
-        ]);
-    }
-
-    // Page CGU
+    // CGU
     #[Route('/cgu', name: 'app_cgu', methods: ['GET'])]
     public function cgu(): Response
     {
         return $this->render('page/cgu.html.twig', [
-            'controller_name' => 'CGU',
+            'controller_name' => 'CJIYUUU',
         ]);
+    }
+
+    // RGPD
+    #[Route('/rgpd', name: 'app_rgpd', methods: ['GET'])]
+    public function rgpd(): Response
+    {
+        return $this->render('page/rgpd.html.twig', [
+            'controller_name' => 'RGGGP',
+        ]);
+    }
+
+    // Page utilisateur
+    #[IsGranted('ROLE_USER')]
+    #[Route('/profile', name: 'app_profile', methods: ['GET'])]
+    public function profile(): Response
+    {
+        return $this->render('page/profile.html.twig');
     }
 }

@@ -32,11 +32,10 @@ class RatingFixtures extends Fixture implements DependentFixtureInterface
             $user = $faker->randomElement($userArray);
             $rate = new Rating();
             $rate
-                ->setNote($faker->numberBetween(1,5))
+                ->setNote($faker->numberBetween(1, 5))
                 ->setIpAddress($faker->ipv4)
                 ->setEvaluator($user)
                 ->setTrip($faker->randomElement($tripArray))
-           
             ;
             $manager->persist($rate);
         }
