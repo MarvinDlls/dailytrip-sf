@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'Categories' |trans }}{% endblock %}
+{% block title %}{{ 'Catégories'|trans }}{% endblock %}
 
 {% block body %}
 
-{% for item in categories  %}
-    {{ item.name |trans }}
-    {{dump(item)}}
+{% for item in categories %}
+    {{ item.name|trans }}
+    {{ dump(item) }}
 {% endfor %}
 
 {% endblock %}
