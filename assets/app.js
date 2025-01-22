@@ -8,7 +8,7 @@ import './bootstrap.js';
 import './styles/style.css';
 import './styles/app.css';
 
-// Nouvelle librairie et fonctions
+// Nouvelles librairies et fonctions 
 import './js/splide.min.js';
 import './js/glightbox.js';
 import './js/functions.js';
