@@ -21,3 +21,9 @@ h1, h2, h3, h4, h5, h6 {
 .w-4 {width: 2.25rem;}
 .w-5 {width: 2.85rem;}
 .w-6 {width: 3rem;}
+
+ul.pagination {
+    gap: .75rem;
+    margin: auto;
+    width: fit-content;
+}
