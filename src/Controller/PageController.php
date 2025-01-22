@@ -13,34 +13,34 @@ class PageController extends AbstractController
     public function index(): Response
     {
         return $this->render('page/home.html.twig', [
-            'controller_name' => 'PageController',
+            'controller_name' => 'Home',
         ]);
     }
 
     // Page contact
-    #[Route('/', name: 'app_contact', methods: ['GET'])]
+    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
     public function contact(): Response
     {
         return $this->render('page/contact.html.twig', [
-            'controller_name' => 'PageController',
+            'controller_name' => 'Contact',
         ]);
     }
 
     // Page RGPD
-    #[Route('/', name: 'app_rgpd', methods: ['GET'])]
+    #[Route('/rgpd', name: 'app_rgpd', methods: ['GET'])]
     public function rgpd(): Response
     {
         return $this->render('page/rgpd.html.twig', [
-            'controller_name' => 'PageController',
+            'controller_name' => 'RGPD',
         ]);
     }
 
     // Page CGU
-    #[Route('/', name: 'app_cgu', methods: ['GET'])]
+    #[Route('/cgu', name: 'app_cgu', methods: ['GET'])]
     public function cgu(): Response
     {
         return $this->render('page/cgu.html.twig', [
-            'controller_name' => 'PageController',
+            'controller_name' => 'CGU',
         ]);
     }
 }
