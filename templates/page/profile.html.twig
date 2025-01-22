@@ -40,7 +40,7 @@
 
 							<!-- Edit profile button -->
 							<div class="position-absolute top-0 end-0 p-3">
-								<a href="#" class="text-primary-hover" data-bs-toggle="tooltip" data-bs-title="Edit profile">
+								<a href="#" class="text-primary-hover" data-bs-toggle="tooltip" data-bs-title="Éditer">
 									<i class="bi bi-pencil-square"></i>
 								</a>
 							</div>
@@ -51,7 +51,7 @@
 								<div class="text-center mb-3">
 									<!-- Avatar -->
 									<div class="avatar avatar-xl mb-2">
-										<img class="avatar-img rounded-circle border border-2 border-white" src="https://avatar.iran.liara.run/public/15" alt="">
+										<img class="avatar-img rounded-circle border border-2 border-white" src="https://avatar.iran.liara.run/public/15" alt="{{app.username ?? 'N/A'}}">
 									</div>
 									<h6 class="mb-0">{{ app.user.username ?? 'N/A'}}</h6>
 									<a href="#" class="text-reset text-primary-hover small">{{ app.user.email ?? 'N/A' }}</a>
@@ -119,7 +119,6 @@
 								<span class="progress-percent-simple h6 fw-light ms-auto">{{progress}}</span>
 							</div>
 						</div>
-						<p class="mb-0">Get the best out of booking by adding the remaining details!</p>
 						</div>
 						<!-- Content -->
 						<div class="bg-body rounded p-3 mt-3">
